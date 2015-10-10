@@ -11,7 +11,7 @@ require('model/functions.fn.php');
 			PROCESS
 ********************************/
 
-if (isset($_POST) && !empty($_POST)) {
+if (isset($_POST['email']) && !empty($_POST['password'])) {
 	
 	/*userConnection
 		return :
@@ -21,9 +21,18 @@ if (isset($_POST) && !empty($_POST)) {
 		$email -> 			field value : email
 		$password -> 		field value : password
 	*/
-	userConnection($db, 'git@initiation.com', 'password');
+	$email =  $_POST['email'];
+	$password = $_POST['password'];
+
+
+
+	if (userConnection($db, $email, $password) == true){
+		header('Location: dashboard.php');
+
+	}elseif (userConnection($db, $email, $password) == false) {
+		$error = "mauvais login";
+	}
 	
-	header('Location: dashboard.php');
 }
 
 /******************************** 
@@ -32,3 +41,6 @@ if (isset($_POST) && !empty($_POST)) {
 include 'view/_header.php';
 include 'view/login.php';
 include 'view/_footer.php';
+
+
+	
